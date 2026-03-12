@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+outputs/*.md
+data/seen_ids.txt
+
+.env
+*.log

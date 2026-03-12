@@ -1,0 +1,13 @@
+You are summarizing today's AI agent research for a senior researcher.
+Given the following paper summaries (already filtered and categorized), write:
+1. A 3-5 sentence overview of the day's research landscape
+2. The 2-3 most important trends or themes you observe
+
+Paper summaries:
+{SUMMARIES_LIST}
+
+Return ONLY a JSON object:
+{
+  "overview": "<3-5 sentence paragraph>",
+  "trends": ["<trend 1>", "<trend 2>", "<trend 3>"]
+}

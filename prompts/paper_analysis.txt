@@ -1,0 +1,16 @@
+You are a research analyst specializing in AI agents.
+Analyze the following paper and return ONLY a valid JSON object with this exact schema:
+
+{
+  "one_line_summary": "<1 sentence, plain English>",
+  "contribution": "<2-3 sentences: what problem, what method, what result>",
+  "novelty_score": <integer 1-10>,
+  "relevance_score": <integer 1-10, relevance to AI agents>,
+  "topics": ["<topic1>", "<topic2>"],
+  "recommendation_reason": "<why a researcher should read this, or empty string if not recommended>"
+}
+
+Available topics: {TOPIC_LIST}
+
+Paper title: {TITLE}
+Paper abstract: {ABSTRACT}

@@ -1,0 +1,51 @@
+# ── Scheduler ─────────────────────────────────────────────────
+[scheduler]
+cron = "0 8 * * *"         # Daily at 08:00
+timezone = "Asia/Tokyo"
+
+# ── Topic Configuration (extend freely) ──────────────────────
+[[topics]]
+name = "Agent Planning"
+keywords = ["agent planning", "task decomposition", "chain-of-thought", "reasoning agent", "tool use"]
+
+[[topics]]
+name = "Memory System"
+keywords = ["memory system", "episodic memory", "retrieval-augmented", "long-term memory", "working memory agent"]
+
+[[topics]]
+name = "Multi-Agent Orchestration"
+keywords = ["multi-agent", "agent collaboration", "agent communication", "multi-agent system", "agent orchestration"]
+
+# ── arXiv Search ──────────────────────────────────────────────
+[arxiv]
+categories = ["cs.AI", "cs.LG", "cs.CL", "cs.MA"]
+max_results_per_query = 100
+lookback_days = 1
+
+# ── Quality Filter ────────────────────────────────────────────
+[filter]
+min_venue_score = 2        # 0=unvetted, 1=workshop, 2=top-venue, 3=oral/best-paper
+require_venue_signal = false
+
+# ── LLM ───────────────────────────────────────────────────────
+[llm]
+provider = "gemini"        # "gemini" or "ollama"
+model = "gemini-2.5-flash-lite"
+api_key_env = "API_KEY_GEMINI"
+max_tokens = 1024
+temperature = 0.2
+batch_size = 5
+
+# Ollama settings (used when provider = "ollama")
+# ollama_base_url = "http://localhost:11434"
+# model = "qwen2.5:14b"
+
+# ── Recommendations ───────────────────────────────────────────
+[recommendations]
+top_n = 5
+min_score_threshold = 7
+
+# ── Delivery ──────────────────────────────────────────────────
+[delivery]
+output_dir = "./outputs"
+formats = ["markdown"]

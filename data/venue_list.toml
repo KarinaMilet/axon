@@ -1,0 +1,85 @@
+[[tier1]]
+name = "NeurIPS"
+patterns = ["NeurIPS", "Neural Information Processing"]
+
+[[tier1]]
+name = "ICML"
+patterns = ["ICML", "International Conference on Machine Learning"]
+
+[[tier1]]
+name = "ICLR"
+patterns = ["ICLR", "International Conference on Learning Representations"]
+
+[[tier1]]
+name = "ACL"
+patterns = ["ACL", "Association for Computational Linguistics"]
+
+[[tier1]]
+name = "EMNLP"
+patterns = ["EMNLP", "Empirical Methods in Natural Language Processing"]
+
+[[tier1]]
+name = "NAACL"
+patterns = ["NAACL"]
+
+[[tier1]]
+name = "CVPR"
+patterns = ["CVPR", "Computer Vision and Pattern Recognition"]
+
+[[tier1]]
+name = "ECCV"
+patterns = ["ECCV", "European Conference on Computer Vision"]
+
+[[tier1]]
+name = "ICCV"
+patterns = ["ICCV", "International Conference on Computer Vision"]
+
+[[tier1]]
+name = "AAAI"
+patterns = ["AAAI"]
+
+[[tier1]]
+name = "IJCAI"
+patterns = ["IJCAI"]
+
+[[tier1]]
+name = "COLM"
+patterns = ["COLM", "Conference on Language Modeling"]
+
+[[tier2]]
+name = "CoRL"
+patterns = ["CoRL", "Conference on Robot Learning"]
+
+[[tier2]]
+name = "AISTATS"
+patterns = ["AISTATS"]
+
+[[tier2]]
+name = "UAI"
+patterns = ["UAI", "Uncertainty in Artificial Intelligence"]
+
+[[tier2]]
+name = "COLT"
+patterns = ["COLT", "Conference on Learning Theory"]
+
+[[tier2]]
+name = "COLING"
+patterns = ["COLING"]
+
+[[tier2]]
+name = "EACL"
+patterns = ["EACL"]
+
+[[tier2]]
+name = "SIGIR"
+patterns = ["SIGIR"]
+
+[[tier2]]
+name = "KDD"
+patterns = ["KDD"]
+
+[[tier2]]
+name = "WWW"
+patterns = ["WWW", "The Web Conference"]
+
+oral_patterns = ["oral", "spotlight", "best paper", "outstanding paper"]

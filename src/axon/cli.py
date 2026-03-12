@@ -8,7 +8,7 @@ import typer
 
 app = typer.Typer(
     name="axon",
-    help="ArXiv AI Agent research digest bot.",
+    help="Axon — your personal research assistant.",
     add_completion=False,
 )
 
@@ -32,17 +32,38 @@ def _setup_logging(verbose: bool) -> None:
 
 
 @app.command()
-def run(
+def fetch(
     config: str = typer.Option("config.toml", "--config", "-c", help="Path to config file"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable debug logging"),
 ) -> None:
-    """Run the full pipeline once (fetch → filter → analyze → digest → deliver)."""
+    """Fetch and filter papers only (no LLM calls). Reusable data acquisition step."""
     _setup_logging(verbose)
-    cfg = _load_config(config)
+    from axon.orchestrator import Orchestrator
 
-    from axon.pipeline import run_pipeline
+    orch = Orchestrator(_load_config(config))
+    orch.run("fetch")
 
-    run_pipeline(cfg)
+
+@app.command()
+def daily(
+    config: str = typer.Option("config.toml", "--config", "-c", help="Path to config file"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable debug logging"),
+) -> None:
+    """Run full daily pipeline: fetch -> analyze -> digest -> deliver."""
+    _setup_logging(verbose)
+    from axon.orchestrator import Orchestrator
+
+    orch = Orchestrator(_load_config(config))
+    orch.run("daily")
+
+
+@app.command()
+def crawler(
+    config: str = typer.Option("config.toml", "--config", "-c", help="Path to config file"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable debug logging"),
+) -> None:
+    """Alias for 'daily'. Run full daily pipeline."""
+    daily(config=config, verbose=verbose)
 
 
 @app.command()
@@ -50,28 +71,14 @@ def serve(
     config: str = typer.Option("config.toml", "--config", "-c", help="Path to config file"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable debug logging"),
 ) -> None:
-    """Start the scheduler daemon. Runs the pipeline on the cron schedule defined in config."""
+    """Start the scheduler daemon. Runs the daily pipeline on the cron schedule."""
     _setup_logging(verbose)
-    cfg = _load_config(config)
-
-    from axon.pipeline import run_pipeline
+    from axon.orchestrator import Orchestrator
     from axon.scheduler import start_scheduler
 
-    start_scheduler(cfg, lambda: run_pipeline(cfg))
-
-
-@app.command(name="fetch-only")
-def fetch_only(
-    config: str = typer.Option("config.toml", "--config", "-c", help="Path to config file"),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable debug logging"),
-) -> None:
-    """Fetch and filter papers only (no LLM calls). Useful for debugging."""
-    _setup_logging(verbose)
     cfg = _load_config(config)
-
-    from axon.pipeline import fetch_only_pipeline
-
-    fetch_only_pipeline(cfg)
+    orch = Orchestrator(cfg)
+    start_scheduler(cfg, lambda: orch.run("daily"))
 
 
 if __name__ == "__main__":

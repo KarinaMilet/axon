@@ -5,6 +5,7 @@ from pathlib import Path
 
 from jinja2 import Template
 
+from axon.delivery.base import DeliveryBackend
 from axon.models import Digest
 
 logger = logging.getLogger(__name__)
@@ -54,19 +55,19 @@ No papers met the recommendation threshold today.
 """
 
 
-def _render_markdown(digest: Digest) -> str:
-    template = Template(MARKDOWN_TEMPLATE)
-    return template.render(digest=digest)
+class MarkdownBackend(DeliveryBackend):
+    def __init__(self, config: dict):
+        delivery_cfg = config.get("delivery", {})
+        self._output_dir = Path(delivery_cfg.get("output_dir", "./outputs"))
 
+    def deliver(self, digest: Digest) -> str:
+        self._output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = self._output_dir / f"{digest.date}.md"
+        content = self._render(digest)
+        output_path.write_text(content, encoding="utf-8")
+        logger.info("Digest written to %s", output_path)
+        return str(output_path)
 
-def deliver(digest: Digest, config: dict) -> Path:
-    delivery_cfg = config.get("delivery", {})
-    output_dir = Path(delivery_cfg.get("output_dir", "./outputs"))
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    output_path = output_dir / f"{digest.date}.md"
-    content = _render_markdown(digest)
-    output_path.write_text(content, encoding="utf-8")
-
-    logger.info("Digest written to %s", output_path)
-    return output_path
+    def _render(self, digest: Digest) -> str:
+        template = Template(MARKDOWN_TEMPLATE)
+        return template.render(digest=digest)

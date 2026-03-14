@@ -15,6 +15,10 @@ def create_provider(config: dict) -> LLMProvider:
         from axon.llm.ollama import OllamaProvider
 
         return OllamaProvider(config)
+    elif provider_name == "gpt":
+        from axon.llm.gpt import GPTProvider
+
+        return GPTProvider(config)
     else:
         raise ValueError(f"Unknown LLM provider: {provider_name}")
 

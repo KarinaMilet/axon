@@ -10,6 +10,32 @@ from axon.models import Paper, PaperAnalysis
 logger = logging.getLogger(__name__)
 
 PAPER_PROMPT_PATH = Path("prompts/paper_analysis.txt")
+PAPER_ANALYSIS_SCHEMA = {
+    "name": "paper_analysis",
+    "schema": {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "one_line_summary": {"type": "string"},
+            "contribution": {"type": "string"},
+            "novelty_score": {"type": "integer"},
+            "relevance_score": {"type": "integer"},
+            "topics": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "recommendation_reason": {"type": "string"},
+        },
+        "required": [
+            "one_line_summary",
+            "contribution",
+            "novelty_score",
+            "relevance_score",
+            "topics",
+            "recommendation_reason",
+        ],
+    },
+}
 
 
 def _load_prompt_template() -> str:
@@ -59,7 +85,7 @@ def analyze_papers(
         for j, paper in enumerate(batch):
             prompt = _build_prompt(template, paper, topic_names)
             try:
-                data = llm.generate_json(prompt)
+                data = llm.generate_json(prompt, schema=PAPER_ANALYSIS_SCHEMA)
                 analysis = _parse_analysis(paper.arxiv_id, data)
                 analyses.append(analysis)
                 logger.info("  ✓ %s", paper.title[:60])

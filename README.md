@@ -17,7 +17,7 @@ Your personal research assistant — fetches, filters, and summarizes daily pape
 # Install (requires uv)
 uv sync
 
-# Set your Gemini API key
+# Set your LLM API key
 export API_KEY_GEMINI="your-api-key"
 
 # Run full daily pipeline
@@ -43,7 +43,7 @@ Edit `config.toml` to adjust:
 - **Topics** — Add keywords and topic names
 - **arXiv** — Categories, lookback days, max results
 - **Filter** — `min_venue_score` (0-3), venue list in `data/venue_list.toml`
-- **LLM** — Provider (`gemini` / `ollama`), model, batch size
+- **LLM** — Provider (`gemini` / `ollama` / `gpt`), model, batch size
 - **Delivery** — Output formats (e.g. `["markdown"]`), output directory
 - **Scheduler** — Cron expression and timezone
 
@@ -58,7 +58,7 @@ axon/
 │   ├── crawler/             # Data acquisition (fetcher + filter)
 │   ├── analysis/            # LLM analysis (analyzer + digest)
 │   ├── delivery/            # Pluggable output backends (markdown, ...)
-│   └── llm/                 # Gemini + Ollama adapters
+│   └── llm/                 # Gemini + Ollama + OpenAI adapters
 ├── data/venue_list.toml     # Conference patterns
 ├── prompts/                 # LLM prompt templates
 └── outputs/                 # Generated digests (YYYY-MM-DD.md)
@@ -66,9 +66,21 @@ axon/
 
 ## Requirements
 
-- Python 3.11+
+- Python 3.13+
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - LLM API key
+
+## OpenAI Example
+
+```toml
+[llm]
+provider = "gpt"
+model = "gpt-5-mini"
+api_key_env = "OPENAI_API_KEY"
+max_tokens = 1024
+temperature = 0.2
+batch_size = 5
+```
 
 ## License
 

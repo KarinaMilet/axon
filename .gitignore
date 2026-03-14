@@ -12,3 +12,4 @@ data/seen_ids.txt
 
 .env
 *.log
+.vscode

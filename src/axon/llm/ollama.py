@@ -35,7 +35,7 @@ class OllamaProvider(LLMProvider):
         resp.raise_for_status()
         return resp.json()["response"]
 
-    def generate_json(self, prompt: str) -> dict:
+    def generate_json(self, prompt: str, schema: dict | None = None) -> dict:
         text = self.generate(prompt).strip()
 
         if text.startswith("```"):

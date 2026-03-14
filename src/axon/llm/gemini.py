@@ -50,7 +50,7 @@ class GeminiProvider(LLMProvider):
     def generate(self, prompt: str) -> str:
         return self._call(prompt, self._gen_config)
 
-    def generate_json(self, prompt: str) -> dict:
+    def generate_json(self, prompt: str, schema: dict | None = None) -> dict:
         text = self._call(prompt, self._json_config)
         text = _strip_code_fences(text)
         return json.loads(text)

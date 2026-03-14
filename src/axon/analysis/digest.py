@@ -10,6 +10,21 @@ from axon.models import Digest, Paper, PaperAnalysis, PaperEntry
 logger = logging.getLogger(__name__)
 
 DAILY_SUMMARY_PROMPT_PATH = Path("prompts/daily_summary.txt")
+DAILY_SUMMARY_SCHEMA = {
+    "name": "daily_summary",
+    "schema": {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "overview": {"type": "string"},
+            "trends": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+        },
+        "required": ["overview", "trends"],
+    },
+}
 
 
 def _group_by_topic(
@@ -72,7 +87,7 @@ def _generate_daily_summary(
     prompt = template.replace("{SUMMARIES_LIST}", summaries)
 
     try:
-        data = llm.generate_json(prompt)
+        data = llm.generate_json(prompt, schema=DAILY_SUMMARY_SCHEMA)
         overview = data.get("overview", "")
         trends = data.get("trends", [])
         return overview, trends

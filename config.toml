@@ -29,9 +29,9 @@ require_venue_signal = false
 
 # ── LLM ───────────────────────────────────────────────────────
 [llm]
-provider = "gemini"        # "gemini" or "ollama"
-model = "gemini-2.5-flash-lite"
-api_key_env = "API_KEY_GEMINI"
+provider = "gpt"        # "gemini", "ollama", or "gpt"
+model = "gpt-5.4"
+api_key_env = "OPENAI_API_KEY"
 max_tokens = 1024
 temperature = 0.2
 batch_size = 5
@@ -39,6 +39,10 @@ batch_size = 5
 # Ollama settings (used when provider = "ollama")
 # ollama_base_url = "http://localhost:11434"
 # model = "qwen2.5:14b"
+
+# OpenAI settings (used when provider = "gpt")
+# model = "gpt-5-mini"
+# api_key_env = "OPENAI_API_KEY"
 
 # ── Recommendations ───────────────────────────────────────────
 [recommendations]

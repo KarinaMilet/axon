@@ -12,6 +12,6 @@ class LLMProvider(ABC):
         ...
 
     @abstractmethod
-    def generate_json(self, prompt: str) -> dict:
+    def generate_json(self, prompt: str, schema: dict | None = None) -> dict:
         """Send a prompt expecting a JSON response and return parsed dict."""
         ...
